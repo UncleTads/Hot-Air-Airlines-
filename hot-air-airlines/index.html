@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hot Air Airlines - Enterprise Suite</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Navigation Bar -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">✈️ Hot Air Airlines</div>
+      <nav id="nav-links">
+        <!-- Dynamic Navigation Links Rendered via JS -->
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- PAGE 1: Welcome / Home -->
+    <section id="page-welcome" class="page active">
+      <!-- Big Page Dashboard -->
+      <div class="page-dashboard-banner">
+        <h3>✈️ Fleet Operational Status & Network Reach</h3>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <h4>Active Fleet</h4>
+            <div class="value">42 Aircraft</div>
+          </div>
+          <div class="metric-card">
+            <h4>Global Destinations</h4>
+            <div class="value">118 Airports</div>
+          </div>
+          <div class="metric-card">
+            <h4>On-Time Rating</h4>
+            <div class="value">94.2%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero">
+        <h1>Welcome to Hot Air Airlines</h1>
+        <p class="tagline">Taking your travel experience to new heights since 1998.</p>
+        
+        <div class="action-buttons">
+          <button class="btn btn-secondary" onclick="openModal('staff-modal')">Staff Login</button>
+          <button class="btn btn-primary" onclick="openModal('signup-modal')">Guest Sign Up</button>
+          <button class="btn btn-outline" onclick="openModal('login-modal')">Guest Sign In</button>
+        </div>
+      </div>
+
+      <div class="card content-grid">
+        <div class="about-section">
+          <h2>About Us & Our History</h2>
+          <p>Founded in 1998, Hot Air Airlines began with a single aircraft dedicated to scenic passenger flights. Over the past two decades, we have expanded into a premier regional carrier known for exceptional comfort, punctual schedules, and unmatched hospitality.Established & Owned by Business tycoon Tadiwa B Mashingaidze.</p>
+        </div>
+        <div class="contact-section">
+          <h2>Contact Us</h2>
+          <p><strong>Owner:</strong> owner@tadiwamashingaidze4@gmail.com</p>
+          <p><strong>Email:</strong> support@hotairairlines.com</p>
+          <p><strong>Phone:</strong> +263 789 653 359</p>
+          <p><strong>Headquarters:</strong> Skyway Tower, Suite 400, Cloud City</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 2: Booking Details & Dynamic Pricing -->
+    <section id="page-booking" class="page">
+      <!-- Big Page Dashboard -->
+      <div class="page-dashboard-banner">
+        <h3>📊 GDS Inventory & Yield Management Dashboard</h3>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <h4>Inventory Status</h4>
+            <div class="value">Live NDC Feed</div>
+          </div>
+          <div class="metric-card">
+            <h4>Dynamic Demand Index</h4>
+            <div class="value" id="dash-demand-index">1.0x Normal</div>
+          </div>
+          <div class="metric-card">
+            <h4>Available Seat Capacity</h4>
+            <div class="value">88.4%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>1. Flight Reservation System</h2>
+        <p class="subtitle">Integrated with GDS & NDC protocols for real-time inventory allocation.</p>
+        
+        <form id="booking-form" onsubmit="handleBookingSubmit(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="fly-from">Traveling From *</label>
+              <select id="fly-from" onchange="calculateDynamicPrice()" required>
+                <option value="">Select Origin</option>
+                <option value="New York (JFK)">New York (JFK)</option>
+                <option value="London (LHR)">London (LHR)</option>
+                <option value="Tokyo (HND)">Tokyo (HND)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fly-to">Traveling To *</label>
+              <select id="fly-to" onchange="calculateDynamicPrice()" required>
+                <option value="">Select Destination</option>
+                <option value="London (LHR)">London (LHR)</option>
+                <option value="Paris (CDG)">Paris (CDG)</option>
+                <option value="Tokyo (HND)">Tokyo (HND)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="depart-date">Departure Date *</label>
+              <input type="date" id="depart-date" onchange="calculateDynamicPrice()" required>
+            </div>
+            <div class="form-group">
+              <label for="passengers">Passengers *</label>
+              <input type="number" id="passengers" min="1" max="10" value="1" onchange="calculateDynamicPrice()" required>
+            </div>
+            <div class="form-group">
+              <label for="cabin-class">Cabin Class *</label>
+              <select id="cabin-class" onchange="calculateDynamicPrice()" required>
+                <option value="Economy">Economy</option>
+                <option value="Business Class">Business Class (+150%)</option>
+                <option value="First Class">First Class (+300%)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dynamic Pricing Widget -->
+          <div class="pricing-card">
+            <h4><span class="badge">Dynamic Yield Engine</span> Calculated Base Flight Fare</h4>
+            <p>Demand Multiplier: <strong id="demand-indicator">1.0x (Standard)</strong></p>
+            <p class="price-display">Flight Subtotal: $<span id="calculated-price">200</span></p>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Continue to Meal Selection ➔</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- PAGE 3: In-Flight Food Selection (Moved BEFORE Payment) -->
+    <section id="page-food" class="page">
+      <!-- Big Page Dashboard -->
+      <div class="page-dashboard-banner">
+        <h3>🍽️ In-Flight Catering & Nutrition Operations</h3>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <h4>Galley Preparation</h4>
+            <div class="value">Fresh On-Board</div>
+          </div>
+          <div class="metric-card">
+            <h4>Dietary Compliance</h4>
+            <div class="value">100% Verified</div>
+          </div>
+          <div class="metric-card">
+            <h4>Complimentary Bar</h4>
+            <div class="value">Included</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>2. Select Your In-Flight Catering</h2>
+        <p class="subtitle">Choose your meal items. Expenses will be consolidated into your single final invoice.</p>
+
+        <form id="food-form" onsubmit="handleFoodSubmit(event)">
+          <div class="form-group">
+            <label for="meal-option">Primary Gourmet Meal *</label>
+            <select id="meal-option" onchange="calculateTotalOrder()" required>
+              <option value="">-- Select a Meal Option --</option>
+              <option value="Grilled Chicken Breast with Herbs" data-price="25">Grilled Chicken Breast with Herbs (+$25)</option>
+              <option value="Pan-Seared Salmon" data-price="35">Pan-Seared Salmon (+$35)</option>
+              <option value="Vegetarian Mediterranean Pasta" data-price="20">Vegetarian Mediterranean Pasta (+$20)</option>
+              <option value="Vegan Buddha Bowl" data-price="18">Vegan Buddha Bowl (+$18)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="beverage-option">Beverage Selection *</label>
+            <select id="beverage-option" onchange="calculateTotalOrder()" required>
+              <option value="">-- Select a Beverage Option --</option>
+              <option value="Sparkling Water" data-price="5">Sparkling Water (+$5)</option>
+              <option value="Fresh Orange Juice" data-price="6">Fresh Orange Juice (+$6)</option>
+              <option value="Hot Coffee / Premium Tea" data-price="4">Hot Coffee / Premium Tea (+$4)</option>
+              <option value="Sommelier Reserve Red/White Wine" data-price="15">Sommelier Reserve Red/White Wine (+$15)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="dietary-notes">Dietary Restrictions / Special Instructions</label>
+            <textarea id="dietary-notes" rows="3" placeholder="e.g., Nut allergy, gluten-free preference..."></textarea>
+          </div>
+
+          <div class="pricing-card">
+            <h4>Catering Subtotal Summary</h4>
+            <p class="price-display">Meal Cost: $<span id="food-subtotal">0</span></p>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Proceed to Consolidated Checkout ➔</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- PAGE 4: Unified Payment Gateway -->
+    <section id="page-payment" class="page">
+      <!-- Big Page Dashboard -->
+      <div class="page-dashboard-banner">
+        <h3>🔒 Payment Clearing & Security Dashboard</h3>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <h4>Encryption Protocol</h4>
+            <div class="value">256-bit SSL</div>
+          </div>
+          <div class="metric-card">
+            <h4>PCI-DSS Compliance</h4>
+            <div class="value">Level 1 Certified</div>
+          </div>
+          <div class="metric-card">
+            <h4>Gateway Status</h4>
+            <div class="value">Online</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>3. Consolidated Payment Gateway</h2>
+        <div id="booking-summary" class="summary-box"></div>
+        
+        <form id="payment-form" onsubmit="handlePaymentSubmit(event)">
+          <div class="form-group">
+            <label for="card-name">Cardholder Name *</label>
+            <input type="text" id="card-name" placeholder="Full name on card" required>
+          </div>
+          <div class="form-group">
+            <label for="card-number">Card Number *</label>
+            <input type="text" id="card-number" maxlength="16" placeholder="1234567890123456" required>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="exp-date">Expiry Date *</label>
+              <input type="text" id="exp-date" placeholder="MM/YY" required>
+            </div>
+            <div class="form-group">
+              <label for="cvv">CVV *</label>
+              <input type="password" id="cvv" maxlength="4" placeholder="123" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="pay-button">Confirm & Pay Entire Amount</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- PAGE 5: Staff Dashboard & Final Boarding Pass -->
+    <section id="page-dashboard" class="page">
+      <div class="card">
+        <h2 id="dashboard-title">Operational Portal</h2>
+        <div id="dashboard-content"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODALS -->
+
+  <!-- Staff Login Modal -->
+  <div id="staff-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('staff-modal')">&times;</span>
+      <h3>Staff Access</h3>
+      <form id="staff-login-form" onsubmit="handleStaffLogin(event)">
+        <div class="form-group">
+          <label for="staff-user">Username</label>
+          <input type="text" id="staff-user" required>
+        </div>
+        <div class="form-group">
+          <label for="staff-pass">Password</label>
+          <input type="password" id="staff-pass" required>
+        </div>
+        <button type="submit" class="btn btn-secondary btn-block">Staff Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Guest Sign In Modal -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
+      <h3>Guest Sign In</h3>
+      <form id="guest-login-form" onsubmit="handleGuestLogin(event)">
+        <div class="form-group">
+          <label for="login-email">Email or Username</label>
+          <input type="text" id="login-email" required>
+        </div>
+        <div class="form-group">
+          <label for="login-pass">Password</label>
+          <input type="password" id="login-pass" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Guest Create Account Modal -->
+  <div id="signup-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('signup-modal')">&times;</span>
+      <h3>Create Guest Account</h3>
+      <form id="signup-form" onsubmit="handleGuestSignUp(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="reg-username">Username *</label>
+            <input type="text" id="reg-username" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-id">ID / Passport Number *</label>
+            <input type="text" id="reg-id" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-email">Email Address *</label>
+            <input type="email" id="reg-email" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Password *</label>
+            <input type="password" id="reg-password" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-contact">Contact Number *</label>
+            <input type="tel" id="reg-contact" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-gender">Gender *</label>
+            <select id="reg-gender" required>
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="reg-country">Country *</label>
+            <input type="text" id="reg-country" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-address">Address *</label>
+            <input type="text" id="reg-address" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
